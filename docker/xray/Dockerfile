@@ -15,8 +15,8 @@ LABEL maintainer="wondershare"
 EXPOSE 9000 80 443
 
 WORKDIR /root
-COPY xray.sh /root/xray.sh
-COPY config.json /etc/xray/config.json
+COPY ./docker/xray/xray.sh /root/xray.sh
+COPY ./docker/xray/config.json /etc/xray/config.json
 RUN set -ex \
 	&& apk add --no-cache tzdata ca-certificates \
 	&& mkdir -p /var/log/xray /usr/share/xray \
