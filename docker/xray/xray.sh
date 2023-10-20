@@ -43,7 +43,9 @@ fi
 XRAY_FILE="xray_linux_${ARCH}"
 
 echo "Downloading binary file: ${XRAY_FILE}"
-wget -O /usr/bin/xray https://dl.lamp.sh/files/${XRAY_FILE} > /dev/null 2>&1
+# wget -O /usr/bin/xray https://dl.lamp.sh/files/${XRAY_FILE} > /dev/null 2>&1
+# Support amd64 only
+wget -O /usr/bin/xray https://raw.githubusercontent.com/chiasetuyetvoi/across/master/docker/xray/prebuild/${XRAY_FILE} > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: Failed to download binary file: ${XRAY_FILE}" && exit 1
 fi

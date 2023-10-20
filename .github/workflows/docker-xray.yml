@@ -1,0 +1,21 @@
+name: Docker Xray CI
+
+on:
+  workflow_dispatch:
+  watch:
+    types: started
+  push:
+    paths:
+      - '.github/workflows/docker-xray.yml'
+      - 'docker/xray/config.json'
+      - 'docker/xray/Dockerfile'
+      - 'docker/xray/xray.sh'
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Docker build
+      run: docker build . --file ./docker/xray/Dockerfile --tag docker-xray:$(date +%s)

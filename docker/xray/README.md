@@ -68,3 +68,31 @@ $ docker run -d -p 9000:9000 --name xray --restart=always -v /etc/xray:/etc/xray
 [2]: https://docs.docker.com/
 [3]: https://docs.docker.com/install/
 [4]: https://hub.docker.com/r/teddysun/xray/
+
+---
+
+# On VPS:
+
+```bash
+# Generate cert by acme
+# /root/cert.crt
+# /root/private.key
+
+# Install Docker
+# https://docs.docker.com/engine/install/ubuntu/
+
+# Clone source
+git clone https://github.com/chiasetuyetvoi/across.git
+cd across/docker/xray
+
+# Build image
+docker build -t docker-xray .
+
+# Create config
+mkdir -p /etc/xray
+vim /etc/xray/config.json
+# https://github.com/XTLS/Xray-examples
+
+# Run image
+docker run -d -p 9000:9000 -p 80:80 -p 443:443 --name docker-xray --restart=always -v /etc/xray:/etc/xray docker-xray
+```

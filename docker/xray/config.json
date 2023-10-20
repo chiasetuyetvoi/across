@@ -1,19 +1,85 @@
 {
-  "inbounds": [{
-    "port": 9000,
-    "protocol": "vmess",
-    "settings": {
-      "clients": [
-        {
-          "id": "1eb6e917-774b-4a84-aff6-b058577c60a5",
-          "level": 1,
-          "alterId": 64
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "port": 9000,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "1eb6e917-774b-4a84-aff6-b058577c60a5",
+            "level": 1,
+            "alterId": 64
+          }
+        ]
+      }
+    },
+    {
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "6d1b5390-a604-41bb-8178-e297fd908d75",
+            "level": 0,
+            "email": "love@example.com"
+          }
+        ],
+        "decryption": "none",
+        "fallbacks": [
+          {
+            "dest": 80
+          },
+          {
+            "path": "/websocket", // Must be replaced with a custom PATH
+            "dest": 1234,
+            "xver": 1
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "tls",
+        "tlsSettings": {
+          "alpn": ["http/1.1"],
+          "certificates": [
+            {
+              "certificateFile": "/root/cert.crt", // Replace it with your certificate, absolute path
+              "keyFile": "/root/private.key" // Replace it with your private key, absolute path
+            }
+          ]
         }
-      ]
+      }
+    },
+    {
+      "port": 1234,
+      "listen": "127.0.0.1",
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "5635a09c-5482-4718-b6ae-457b11b0ca28",
+            "level": 0,
+            "email": "love@example.com"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+          "acceptProxyProtocol": true, // Wake up: If you use Nginx/Caddy and other anti-WS, you need to delete this line
+          "path": "/websocket" // It must be replaced with a custom PATH, which needs to be consistent with the above
+        }
+      }
     }
-  }],
-  "outbounds": [{
-    "protocol": "freedom",
-    "settings": {}
-  }]
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom"
+    }
+  ]
 }
