@@ -85,12 +85,16 @@ $ docker run -d -p 9000:9000 --name xray --restart=always -v /etc/xray:/etc/xray
 git clone https://github.com/chiasetuyetvoi/across.git
 cd across/docker/xray
 
+# Edit path
+vim Dockerfile
+# Remove `./docker/xray/`
+
 # Build image
 docker build -t docker-xray .
 
 # Create config
-mkdir -p /etc/xray
-vim /etc/xray/config.json
+sudo mkdir -p /etc/xray
+sudo vim /etc/xray/config.json
 # https://github.com/XTLS/Xray-examples
 
 # Run image
